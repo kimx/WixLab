@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The name of the product -->
+<?define Name = "WixLab.WpfApp" ?>
+<?define Description = "WixLab.WpfApp desktop application." ?>
+<?define Manufacturer = "WixLab Kimxinfo" ?>
+<!-- The version number of this setup package-->
+<?define Version = "1.0.0" ?>
+<!-- Bundle logo-->
+<?define Logo = "Resources\Setup.ico" ?>
+<!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
+<?define UpgradeCode = "{371c6fa7-b905-46f5-a14c-a136bbd737de}" ?>
+<?define NetFx48MinRelease = 528040 ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Bundle Name="WixLab Setup"  Version="1.0.0.0" Manufacturer="$(var.Manufacturer)" UpgradeCode="0165e946-e446-43e9-ab7c-9326509d9d92">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
+      <bal:WixStandardBootstrapperApplication  LicenseUrl=""   
+                                              LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="yes"  
+                                              LaunchTarget="[ProgramFilesFolder]\WixLab.WpfApp\WixLab.WpfApp.exe"/>
+    </BootstrapperApplicationRef>
+
+    <Chain DisableSystemRestore="yes">
+      <PackageGroupRef Id="NetFx48Redist" />
+      <!--DisplayInternalUI =no 不會跳出Setup專案的任何UI及CustomAction-->
+      <MsiPackage DisplayName="$(var.Name)" SourceFile="$(var.WixLab.Setup.TargetPath)" DisplayInternalUI="no" Compressed="yes" Vital="yes" >
+      </MsiPackage>
+    </Chain>
+	</Bundle>
+  <Fragment>
+    <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx48Redist" />
+    <WixVariable Id="NetFx48RedistDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx48MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx48RedistInstallCondition" Value="" Overridable="yes" />
+
+    <PackageGroup Id="NetFx48Redist">
+      <ExePackage
+         DisplayName=".net Framework 4.8"
+         InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx48FullLog].html&quot;"
+         RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx48FullLog].html&quot;"
+         UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx48FullLog].html&quot;"
+         PerMachine="yes"
+         DetectCondition="!(wix.NetFx48RedistDetectCondition)"
+         InstallCondition="!(wix.NetFx48RedistInstallCondition)"
+         Id="NetFx48Redist"
+         Vital="yes"
+         Permanent="yes"
+         Protocol="netfx4"
+         LogPathVariable="NetFx48FullLog"
+         Compressed="yes"
+         SourceFile="Resources\ndp48-x86-x64-allos-enu.exe">
+
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+</Wix>

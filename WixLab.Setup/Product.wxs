@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?define Name = "WixLab.WpfApp" ?>
+<?define Description = "WixLab.WpfApp desktop application." ?>
+<?define Manufacturer = "WixLab Kimxinfo" ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="WixLab.Setup" Language="1033" Version="1.0.0.0" Manufacturer="$(var.Manufacturer)" UpgradeCode="162886ac-77c1-460a-ab86-a79efd4c6041">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate />
+    <!--Application logo-->
+    <Icon Id="Logo.ico" SourceFile="$(var.WixLab.WpfApp.TargetDir)Resources\ApplicationIcon.ico" />
+    <!--Application logo for Control Panel-->
+    <Property Id="ARPPRODUCTICON" Value="Logo.ico" />
+    <Feature Id="ProductFeature" Title="WixLab.Setup" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <!--加入相關 dll-->
+      <ComponentRef Id="LibsAndFiles"/>
+      <!--加入程式選單的快捷-->
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+    <!--以下為自訂UI-以下設定若在Bootstraper設定不顯示的話,就不會用到-->
+    <!--Custom UI for installer-->
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir" />
+    <!--EndUser License aggrement-->
+    <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="Resources\eula.rtf" />
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="$(var.Name)">
+          <Directory Id="DesktopFolder" Name="DesktopFolder" />
+        </Directory>
+      </Directory>
+      <!--Create application folder in Program Menu-->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="$(var.Name)" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent">
+        <!--加入檔案:建置專案的輸出-->
+        <File Source="$(var.WixLab.WpfApp.TargetPath)" />
+      </Component>
+      <!-- 加入桌面捷近-->
+      <Component Id="DesktopShortcutComponent" Guid="*">
+        <Shortcut Id="AppDesktopShortcut"
+                  Name="$(var.Name)"
+                  Description="$(var.Description)"
+                  Directory="DesktopFolder"
+                  Target="[#WixLab.WpfApp.exe]"
+                  WorkingDirectory="INSTALLFOLDER"/>
+        <!--Remove desktop shortcut on uninstall-->
+        <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Name)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+
+      <!-- 註冊開機後馬上執行的機碼-->
+      <Component Id="RunStartComponent" Guid="*">
+        <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Name="$(var.Name)" Type="string" Value="[#WixLab.WpfApp.exe]" KeyPath="yes" />
+
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="LibsAndFiles" Guid="ae8c83a1-7615-4439-bf90-4c39db24986f">
+        <File Id="WixLab.WpfApp.exe.config" Source="$(var.WixLab.WpfApp.TargetDir)\WixLab.WpfApp.exe.config"/>
+        <File Id="ApplicationIcon.ico" Source="$(var.WixLab.WpfApp.TargetDir)Resources\ApplicationIcon.ico"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <!--Create application shortcut in Program Menu-->
+      <Component Id="ApplicationShortcut" Guid="*">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="$(var.Name)" Description="$(var.Description)" Icon="Logo.ico" Target="[#WixLab.WpfApp.exe]" WorkingDirectory="INSTALLFOLDER" />
+        <!--Remove application shortcut from Program Menu on uninstall-->
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
+        <!--Create application registry entry-->
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\$(var.Manufacturer)\$(var.Name)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>
