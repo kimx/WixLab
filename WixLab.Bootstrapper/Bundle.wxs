@@ -11,11 +11,14 @@
 <?define UpgradeCode = "{371c6fa7-b905-46f5-a14c-a136bbd737de}" ?>
 <?define NetFx48MinRelease = 528040 ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <Bundle Name="WixLab Setup"  Version="1.0.0.0" Manufacturer="$(var.Manufacturer)" UpgradeCode="0165e946-e446-43e9-ab7c-9326509d9d92">
+  <Bundle Name="WixLab"  Version="1.0.0.0" Manufacturer="$(var.Manufacturer)" UpgradeCode="0165e946-e446-43e9-ab7c-9326509d9d92"
+          IconSourceFile="$(var.WixLab.WpfApp.ProjectDir)Resources\ApplicationIcon.ico">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
-      <bal:WixStandardBootstrapperApplication  LicenseUrl=""   
-                                              LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="yes"  
-                                              LaunchTarget="[ProgramFilesFolder]\WixLab.WpfApp\WixLab.WpfApp.exe"/>
+      <bal:WixStandardBootstrapperApplication  LicenseUrl=""    ShowVersion="yes"
+                                              LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="yes"
+                                              LaunchTarget="[ProgramFilesFolder]\WixLab.WpfApp\WixLab.WpfApp.exe"
+                                              ThemeFile="Resources/Theme.xml"
+                                              LocalizationFile="Resources/Theme.wxl"/>
     </BootstrapperApplicationRef>
 
     <Chain DisableSystemRestore="yes">
@@ -24,7 +27,7 @@
       <MsiPackage DisplayName="$(var.Name)" SourceFile="$(var.WixLab.Setup.TargetPath)" DisplayInternalUI="no" Compressed="yes" Vital="yes" >
       </MsiPackage>
     </Chain>
-	</Bundle>
+  </Bundle>
   <Fragment>
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
