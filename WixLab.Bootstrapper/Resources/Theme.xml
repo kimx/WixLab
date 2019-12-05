@@ -19,7 +19,7 @@
     <Button Name="HelpCancelButton" X="-11" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.HelpCloseButton)</Button>
   </Page>
   <Page Name="Install">
-    <Text X="11" Y="80" Width="-11" Height="64" FontId="3" Visible="yes" DisablePrefix="yes">#(loc.InstallMessage)</Text>
+    <Text Name="InstallMessage" X="11" Y="80" Width="-11" Height="64" FontId="3"  DisablePrefix="yes">#(loc.InstallMessage)</Text>
     <!--<Hypertext Name="EulaHyperlink" X="11" Y="121" Width="-11" Height="51" TabStop="yes" FontId="3" HideWhenDisabled="yes">#(loc.InstallLicenseLinkText)</Hypertext>
     <Checkbox Name="AddDesktopShortcut" X="11" Y="-67" Width="-11" Height="17" TabStop="yes" FontId="3" HideWhenDisabled="yes">#(loc.InstallDesktopShortcut)</Checkbox>
     <Checkbox Name="EulaAcceptCheckbox" X="11" Y="-41" Width="260" Height="17" TabStop="yes" FontId="3" HideWhenDisabled="yes">#(loc.InstallAcceptCheckbox)</Checkbox>

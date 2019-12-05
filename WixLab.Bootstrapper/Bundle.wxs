@@ -15,14 +15,14 @@
           IconSourceFile="$(var.WixLab.WpfApp.ProjectDir)Resources\ApplicationIcon.ico">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
       <bal:WixStandardBootstrapperApplication  LicenseUrl=""    ShowVersion="yes"
-                                              LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="yes"
+                                              LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="no"
                                               LaunchTarget="[ProgramFilesFolder]\WixLab.WpfApp\WixLab.WpfApp.exe"
                                               ThemeFile="Resources/Theme.xml"
                                               LocalizationFile="Resources/Theme.wxl"/>
     </BootstrapperApplicationRef>
 
     <Chain DisableSystemRestore="yes">
-      <PackageGroupRef Id="NetFx48Redist" />
+      <!--<PackageGroupRef Id="NetFx48Redist" />-->
       <!--DisplayInternalUI =no 不會跳出Setup專案的任何UI及CustomAction-->
       <MsiPackage DisplayName="$(var.Name)" SourceFile="$(var.WixLab.Setup.TargetPath)" DisplayInternalUI="no" Compressed="yes" Vital="yes" >
       </MsiPackage>
