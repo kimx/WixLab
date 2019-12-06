@@ -11,12 +11,12 @@
 <?define UpgradeCode = "{371c6fa7-b905-46f5-a14c-a136bbd737de}" ?>
 <?define NetFx48MinRelease = 528040 ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <Bundle Name="WixLab"  Version="1.0.0.0" Manufacturer="$(var.Manufacturer)" UpgradeCode="0165e946-e446-43e9-ab7c-9326509d9d92"
-          IconSourceFile="$(var.WixLab.WpfApp.ProjectDir)Resources\ApplicationIcon.ico">
+  <Bundle Name="$(var.Name)"  Version="$(var.Version)" Manufacturer="$(var.Manufacturer)"  UpgradeCode="$(var.UpgradeCode)"
+     IconSourceFile="$(var.Logo)">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
       <bal:WixStandardBootstrapperApplication  LicenseUrl=""    ShowVersion="yes"
                                               LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="no"
-                                              LaunchTarget="[ProgramFilesFolder]\WixLab.WpfApp\WixLab.WpfApp.exe"
+                                              LaunchTarget="[ProgramFilesFolder]\$(var.Name)\WixLab.WpfApp.exe"
                                               ThemeFile="Resources/Theme.xml"
                                               LocalizationFile="Resources/Theme.wxl"/>
     </BootstrapperApplicationRef>

@@ -26,7 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\eula.rtf" />
-    <Content Include="Resources\Setup.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WixLab.WpfApp\WixLab.WpfApp.csproj">
