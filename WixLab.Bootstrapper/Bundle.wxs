@@ -14,7 +14,7 @@
   <Bundle Name="$(var.Name)"  Version="$(var.Version)" Manufacturer="$(var.Manufacturer)"  UpgradeCode="$(var.UpgradeCode)"
      IconSourceFile="$(var.Logo)">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
-      <bal:WixStandardBootstrapperApplication  LicenseUrl=""    ShowVersion="yes"
+      <bal:WixStandardBootstrapperApplication LicenseUrl="" ShowVersion="yes" ShowFilesInUse="yes" 
                                               LogoFile="$(var.Logo)" SuppressOptionsUI ="yes" SuppressRepair="no"
                                               LaunchTarget="[ProgramFilesFolder]\$(var.Name)\WixLab.WpfApp.exe"
                                               ThemeFile="Resources/Theme.xml"
